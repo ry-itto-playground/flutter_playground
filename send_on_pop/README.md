@@ -1,16 +1,29 @@
 # sendonpop
+遷移先から戻る時に値を渡すサンプル
 
-A new Flutter application.
+---
+SnackBar 表示時に
+```
+Scaffold.of() called with a context that does not contain a Scaffold
+```
+が発生。
 
-## Getting Started
+=> Scaffold 自身の context だとダメっぽい。子の context を作ってそれを渡す。
 
-This project is a starting point for a Flutter application.
+---
 
-A few resources to get you started if this is your first Flutter project:
+`..` でつなげる謎構文
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+カスケード記法というらしい。
+同一レシーバを対象にメソッドを呼びたい時に使うみたい。
+https://makicamel.hatenablog.com/entry/2019/03/27/184508
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```dart
+Scaffold.of(context).removeCurrentSnackBar();
+Scaffold.of(context).showSnackBar(
+  SnackBar(
+    content: Text(result),
+  ),
+);
+```
+こうしなくていいってやつみたい。
