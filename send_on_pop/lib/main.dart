@@ -17,28 +17,35 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Demo"),
-      ),
-      body: Center(
-        child: RaisedButton(
-          onPressed: () async {
-            final result = await Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => SecondPage(),
-              ),
-            );
-
-            // AppBar の戻るボタンで戻った場合 null が返ってくるっぽい。
-            print(result);
-          },
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          title: Text("Demo"),
         ),
-      ),
-    );
-  }
+        body: Builder(
+          builder: (context) => Center(
+            child: RaisedButton(
+              onPressed: () async {
+                final result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SecondPage(),
+                  ),
+                );
+
+                // AppBar の戻るボタンで戻った場合 null が返ってくるっぽい。
+
+                Scaffold.of(context)
+                  ..removeCurrentSnackBar()
+                  ..showSnackBar(
+                    SnackBar(
+                      content: Text(result),
+                    ),
+                  );
+              },
+            ),
+          ),
+        ),
+      );
 }
 
 class SecondPage extends StatelessWidget {
